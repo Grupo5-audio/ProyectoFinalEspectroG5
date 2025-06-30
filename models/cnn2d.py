@@ -68,23 +68,28 @@ def run_cnn2d(data_path="src/", models_path="models/"):
     model.summary()
 
     # 📌 Callbacks
-    early_stop = callbacks.EarlyStopping(monitor='val_loss', patience=3, restore_best_weights=True)
-    checkpoint = callbacks.ModelCheckpoint(
-        filepath=os.path.join(models_path, "best_cnn2d_model.h5"),
-        monitor='val_loss',
-        save_best_only=True,
-        verbose=1
+    early_stop = callbacks.EarlyStopping(
+    monitor='val_loss',
+    patience=5,
+    restore_best_weights=True
+    )
+
+    reduce_lr = callbacks.ReduceLROnPlateau(
+    monitor='val_loss',
+    factor=0.5,
+    patience=2,
+    verbose=1
     )
 
     # 🚀 Entrenamiento
     print("🚀 Entrenando modelo CNN 2D...")
     history = model.fit(
-        x_train, y_train,
-        validation_data=(x_val, y_val),
-        epochs=25,
-        batch_size=32,
-        callbacks=[early_stop, checkpoint],
-        verbose=2
+    x_train, y_train,
+    validation_data=(x_val, y_val),
+    epochs=50,  # antes tenías 25
+    batch_size=32,
+    callbacks=[early_stop, reduce_lr],
+    verbose=2
     )
 
     # 💾 Guardar último modelo
