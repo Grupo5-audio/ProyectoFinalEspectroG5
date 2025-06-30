@@ -93,7 +93,7 @@ def run_cnn2d(data_path="src/", models_path="models/"):
     )
 
     # 💾 Guardar último modelo
-    final_model_path = os.path.join(models_path, "cnn2d_model_final.h5")
+    final_model_path = os.path.join(models_path, "cnn2d_model_final.keras")
     model.save(final_model_path)
     print(f"📦 Modelo CNN 2D guardado en: {final_model_path}")
 
